@@ -1,0 +1,29 @@
+# Vivado/Vitis generated
+*.jou
+*.log
+*.str
+*.pb
+*.Xil/
+.Xil/
+.cache/
+.hw/
+.ip_user_files/
+.gen/
+.runs/
+.sim/
+srcs/
+component.xml
+NA/
+
+# Build artifacts
+build/
+output/
+tmp/
+sw/buildroot/*.tar.gz
+
+# Generic
+*.swp
+*~
+.DS_Store
+
+
