@@ -1,0 +1,10 @@
+
+
+OPTION psf_version = 2.1;
+
+BEGIN DRIVER tfg_axi_lite_regs
+	OPTION supported_peripherals = (tfg_axi_lite_regs);
+	OPTION copyfiles = all;
+	OPTION VERSION = 1.0;
+	OPTION NAME = tfg_axi_lite_regs;
+END DRIVER

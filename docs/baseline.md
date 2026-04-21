@@ -65,7 +65,8 @@
 ## Estado de especificación del IP
 
 - `T2` cerrada a nivel de contrato HW/SW.
-- Especificación del IP: `hw/ip/tfg_axi_lite_regs/spec.md`
+- Directorio físico del IP empaquetado: `hw/ip/tfg_axi_lite_regs_1_0/`
+- Especificación del IP: `hw/ip/tfg_axi_lite_regs_1_0/spec.md`
 - Header de software asociado: `sw/include/tfg_axi_lite_regs.h`
 - Pendiente para etapas posteriores:
   - confirmar dirección base y tamaño final de ventana en Vivado `Address Editor`
