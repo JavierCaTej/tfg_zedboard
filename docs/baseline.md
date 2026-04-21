@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T1.14` completado
+- Estado: `T2` completada
 
 ## Plataforma
 
@@ -61,6 +61,14 @@
 
 - Nombre del proyecto Vivado: `tfg_zedboard`
 - Nombre del IP AXI-Lite: `tfg_axi_lite_regs`
+
+## Estado de especificación del IP
+
+- `T2` cerrada a nivel de contrato HW/SW.
+- Especificación del IP: `hw/ip/tfg_axi_lite_regs/spec.md`
+- Header de software asociado: `sw/include/tfg_axi_lite_regs.h`
+- Pendiente para etapas posteriores:
+  - confirmar dirección base y tamaño final de ventana en Vivado `Address Editor`
 
 ## Política de nombres
 
