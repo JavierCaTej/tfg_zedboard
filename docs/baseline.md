@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T1.8` completado
+- Estado: `T1.14` completado
 
 ## Plataforma
 
@@ -36,6 +36,26 @@
   - El host arranca sobre `Ubuntu 20.04 LTS`, alineado con la familia soportada por la guía.
   - Existe una desviación metodológica menor: la guía cita subversiones `20.04.1-20.04.4` y el host real es `20.04.6`.
   - El espacio libre actual (`115G`) es suficiente para continuar con Vivado, Vitis y Buildroot.
+
+## Dependencias mínimas de Buildroot
+
+- Fecha de verificación: `2026-04-21T17:57:58+02:00`
+- Comprobación realizada con `dpkg -s`
+- Paquetes mínimos verificados como instalados
+  - `make`
+  - `gcc`
+  - `g++`
+  - `bash`
+  - `sed`
+  - `patch`
+  - `gzip`
+  - `bzip2`
+  - `perl`
+  - `tar`
+  - `wget`
+  - `libncurses-dev`
+- Evaluación
+  - Se cumple `T1.14`: las dependencias mínimas para Buildroot ya están presentes en el host.
 
 ## Nombres congelados
 
