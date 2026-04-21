@@ -44,6 +44,8 @@ Este IP forma parte del MVP del TFG y prioriza simplicidad, trazabilidad y compo
 | `0x14` | `REG_RDATA` | `RO` | `0x00000000` | Dato devuelto por el periférico. |
 | `0x18` | `REG_WRITE_COUNT` | `RO` | `0x00000000` | Contador de escrituras válidas. |
 | `0x1C` | `REG_READ_COUNT` | `RO` | `0x00000000` | Contador de lecturas válidas. |
+| `0x20` | `REG_COUNTER_L` | `RO` | `0x00000000` | Palabra baja de un contador libre de observabilidad. |
+| `0x24` | `REG_COUNTER_H` | `RO` | `0x00000000` | Palabra alta del contador libre de observabilidad. |
 
 ## Semántica funcional inicial
 
@@ -107,6 +109,20 @@ Este IP forma parte del MVP del TFG y prioriza simplicidad, trazabilidad y compo
 
 - Registro de solo lectura.
 - Cuenta lecturas válidas realizadas sobre `REG_RDATA`.
+- El valor tras reset será `0x00000000`.
+
+### `REG_COUNTER_L`
+
+- Registro de solo lectura.
+- Expone la palabra baja de un contador libre interno de `64 bits` para observabilidad básica.
+- Su comportamiento detallado en frecuencia e incremento se fijará en la implementación RTL.
+- El valor tras reset será `0x00000000`.
+
+### `REG_COUNTER_H`
+
+- Registro de solo lectura.
+- Expone la palabra alta del contador libre interno de `64 bits`.
+- Su comportamiento detallado en frecuencia e incremento se fijará en la implementación RTL.
 - El valor tras reset será `0x00000000`.
 
 ## Política de errores
