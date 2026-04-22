@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_tfg_axi_lite_regs_v1_0_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb_tfg_axi_lite_regs_v1_0" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="43.982 ns"></ZoomStartTime>
+      <ZoomEndTime time="651.136 ns"></ZoomEndTime>
+      <Cursor1Time time="50.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="276"></NameColumnWidth>
+      <ValueColumnWidth column_width="116"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="22" />
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_aclk">
+      <obj_property name="ElementShortName">s00_axi_aclk</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_aclk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_aresetn">
+      <obj_property name="ElementShortName">s00_axi_aresetn</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_aresetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_awaddr">
+      <obj_property name="ElementShortName">s00_axi_awaddr[5:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_awaddr[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_awprot">
+      <obj_property name="ElementShortName">s00_axi_awprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_awprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_awvalid">
+      <obj_property name="ElementShortName">s00_axi_awvalid</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_awready">
+      <obj_property name="ElementShortName">s00_axi_awready</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_awready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_wdata">
+      <obj_property name="ElementShortName">s00_axi_wdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_wdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_wstrb">
+      <obj_property name="ElementShortName">s00_axi_wstrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_wstrb[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_wvalid">
+      <obj_property name="ElementShortName">s00_axi_wvalid</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_wvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_wready">
+      <obj_property name="ElementShortName">s00_axi_wready</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_wready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_bresp">
+      <obj_property name="ElementShortName">s00_axi_bresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_bresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_bvalid">
+      <obj_property name="ElementShortName">s00_axi_bvalid</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_bvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_bready">
+      <obj_property name="ElementShortName">s00_axi_bready</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_bready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_araddr">
+      <obj_property name="ElementShortName">s00_axi_araddr[5:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_araddr[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_arprot">
+      <obj_property name="ElementShortName">s00_axi_arprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_arprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_arvalid">
+      <obj_property name="ElementShortName">s00_axi_arvalid</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_arvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_arready">
+      <obj_property name="ElementShortName">s00_axi_arready</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_arready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_rdata">
+      <obj_property name="ElementShortName">s00_axi_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_rresp">
+      <obj_property name="ElementShortName">s00_axi_rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_rvalid">
+      <obj_property name="ElementShortName">s00_axi_rvalid</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_rvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_tfg_axi_lite_regs_v1_0/s00_axi_rready">
+      <obj_property name="ElementShortName">s00_axi_rready</obj_property>
+      <obj_property name="ObjectShortName">s00_axi_rready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_tfg_axi_lite_regs_v1_0/reg_counter_l_before">
+      <obj_property name="ElementShortName">reg_counter_l_before[31:0]</obj_property>
+      <obj_property name="ObjectShortName">reg_counter_l_before[31:0]</obj_property>
+   </wvobject>
+</wave_config>
