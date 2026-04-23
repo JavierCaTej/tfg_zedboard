@@ -1,5 +1,18 @@
 # Evidence Matrix
 
-| Artefacto | Etapa | Herramienta | Fecha | Hash/Firma |
-|---|---|---|---|---|
-| `docs/baseline.md` | `T0` | `edición manual` | `2026-04-20` | `pendiente` |
+Matriz de trazabilidad de artefactos y evidencias del proyecto. Su función es dejar claro qué fichero demuestra cada etapa y para qué servirá luego en la memoria del TFG.
+
+| Artefacto                                                             | Etapa   | Fecha        | Hash/Firma                                                                | Uso futuro en memoria                                                               |
+| --------------------------------------------------------------------- | ------- | ------------ | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `docs/baseline.md`                                                    | `T0-T1` | `2026-04-23` | `sha256:0fbfd695f77fdc3e93054db544eba1ac97d7af3ae734abbaa03f8c160b4e86a1` | Baseline metodológica, versiones y nomenclatura del proyecto.                       |
+| `hw/ip/tfg_axi_lite_regs_1_0/spec.md`                                 | `T2`    | `2026-04-23` | `sha256:b669169590c97a61a00a4d84ac72e2c1462a16d0dd2c61c10557a28bb147ad39` | Contrato HW/SW del periférico AXI4-Lite y mapa de registros.                        |
+| `sw/include/tfg_axi_lite_regs.h`                                      | `T2`    | `2026-04-23` | `sha256:55d18a762240783975fb380edeeec21f84bffb5d8aff5964c8264450768fb732` | Header de software con offsets y máscaras del periférico.                           |
+| `hw/ip/tfg_axi_lite_regs_1_0/hdl/tfg_axi_lite_regs_v1_0_S00_AXI.vhd`  | `T3`    | `2026-04-23` | `sha256:e822970b327e83be6af4f686225df4c516a0c1d61f7f567c4ec05875cee1c7d3` | Implementación RTL del esclavo AXI4-Lite con semántica real del IP.                 |
+| `hw/ip/tfg_axi_lite_regs_1_0/tb/tb_tfg_axi_lite_regs_v1_0.vhd`        | `T3`    | `2026-04-23` | `sha256:d30ac7b718c0fae0a1a85b8d1f98ff1159b6aa37d2ef197d8f481a1ff6da8a20` | Testbench funcional para reset, registros, eco y contadores.                        |
+| `hw/ip/tfg_axi_lite_regs_1_0/tb/tb_tfg_axi_lite_regs_v1_0.png`        | `T3`    | `2026-04-23` | `sha256:5e9a8df5c0fb27639c9be72bf8363f0d667a1c598bfcbeb32a4c7eebdd1f7526` | Captura reutilizable de waveform para la sección de verificación funcional.         |
+| `hw/ip/tfg_axi_lite_regs_1_0/tb/tb_tfg_axi_lite_regs_v1_0_behav.wcfg` | `T3`    | `2026-04-23` | `sha256:8f00aad47afbd1b662ab1a459f7b5f3546681c002dccc25883b1bd9178f2e876` | Configuración de señales de waveform usada durante la simulación.                   |
+| `hw/ip/tfg_axi_lite_regs_1_0/tb/results_t3.md`                        | `T3`    | `2026-04-23` | `sha256:6e21603346d07d5d444fb2e1f6b46187d3d07b4a6cd8fe0af17a5f76c80bf6e0` | Resumen textual de casos de prueba y resultado de simulación.                       |
+| `hw/vivado/tfg_zedboard/tfg_zedboard.xpr`                             | `T4`    | `2026-04-23` | `sha256:b0a709bae50201b3f749109fdc272b7d1d9dd389d2501855747f8107f05839a0` | Evidencia del proyecto Vivado, part/board seleccionados y repositorio local de IPs. |
+| `hw/vivado/scripts/tfg_zedboard_bd.tcl`                               | `T4`    | `2026-04-23` | `sha256:095b21086e68e5bd2e68cf103f36453e5b524a6ca251fac9235bc8a7a3bf6123` | Script Tcl para reconstruir el Block Design base del sistema.                       |
+| `hw/vivado/scripts/tfg_zedboard_project.tcl`                          | `T4`    | `2026-04-23` | `sha256:4f83624e2975980e0e70ecd29ed75a3b226cc378cb0a9bb2f0c677fb8d137307` | Script Tcl para reconstruir el proyecto Vivado.                                     |
+| `docs/captures/vivado/T4_block_design.png`                            | `T4`    | `2026-04-23` | `sha256:b857396bac959e6edecce043b2e0bf3c3d52ae420bcc024158e1e8e9b401da7e` | Captura reutilizable del Block Design base con `Zynq7 Processing System`.           |
