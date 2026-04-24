@@ -26,5 +26,13 @@ sw/buildroot/*.tar.gz
 *~
 .DS_Store
 
+# Vivado project-specific generated directories
+hw/vivado/tfg_zedboard/tfg_zedboard.cache/
+hw/vivado/tfg_zedboard/tfg_zedboard.gen/
+hw/vivado/tfg_zedboard/tfg_zedboard.hw/
+hw/vivado/tfg_zedboard/tfg_zedboard.ip_user_files/
+hw/vivado/tfg_zedboard/tfg_zedboard.runs/
+hw/vivado/tfg_zedboard/tfg_zedboard.sim/
+hw/vivado/tfg_zedboard/tfg_zedboard.srcs/
 
 guia-practica-tfg-zedboard-20-04.pdf
