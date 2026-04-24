@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T4` completada
+- Estado: `T5` completada
 
 ## Plataforma
 
@@ -41,6 +41,14 @@
 - Dirección base del IP en `Address Editor`: `0x40000000`
 - Rango asignado al IP en `Address Editor`: `0x1000` (`4K`)
 - Wrapper HDL del Block Design: generado
+
+## Estado de implementación hardware
+
+- `T5` cerrada a nivel de bitstream y exportación hardware.
+- Bitstream final: `artifacts/hw/tfg_zedboard_bd_wrapper.bit`
+- Exportación hardware final: `artifacts/hw/tfg_zedboard.xsa`
+- Informes principales conservados en:
+  - `artifacts/hw/reports/`
 
 ## Política de nombres
 
