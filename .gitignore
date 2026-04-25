@@ -1,6 +1,6 @@
 # Vivado/Vitis generated
 *.jou
-*.log
+vivado.log
 *.str
 *.pb
 *.Xil/
@@ -14,6 +14,7 @@
 srcs/
 component.xml
 NA/
+sw/vitis/workspace
 
 # Build artifacts
 build/
