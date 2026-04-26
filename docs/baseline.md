@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T5` completada
+- Estado: `T7` completada
 
 ## Plataforma
 
@@ -49,6 +49,22 @@
 - Exportación hardware final: `artifacts/hw/tfg_zedboard.xsa`
 - Informes principales conservados en:
   - `artifacts/hw/reports/`
+
+## Estado de Buildroot
+
+- `T7` cerrada a nivel de build base reproducible.
+- Versión usada: `Buildroot 2023.02.9`
+- Árbol fuente: `sw/buildroot/buildroot-2023.02.9/`
+- Defconfig propia del proyecto: `sw/buildroot/configs/tfg_zedboard_defconfig`
+- Directorio de salida out-of-tree: `sw/buildroot/output/zedboard/`
+- Script de invocación: `sw/buildroot/scripts/build_buildroot.sh`
+- Artefactos principales congelados en `artifacts/buildroot/`
+- U-Boot ELF para volver a `T6`: `artifacts/buildroot/u-boot.elf`
+- Kernel generado: `artifacts/buildroot/uImage`
+- DTB actual: `artifacts/buildroot/system.dtb`
+- Root filesystem base: `artifacts/buildroot/rootfs.ext4`
+- Imagen SD base generada por Buildroot: `artifacts/buildroot/sdcard.img`
+- Nota: el `BOOT.bin` final del proyecto no queda cerrado en `T7`; se generará al volver a `T6` con el `FSBL`, el bitstream y el U-Boot ELF trazado.
 
 ## Política de nombres
 

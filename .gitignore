@@ -18,9 +18,9 @@ sw/vitis/workspace
 
 # Build artifacts
 build/
-output/
 tmp/
-sw/buildroot/*.tar.gz
+sw/buildroot/buildroot-2023.02.9
+sw/buildroot/output
 
 # Generic
 *.swp

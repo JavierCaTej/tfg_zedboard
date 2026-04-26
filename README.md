@@ -6,13 +6,15 @@ El objetivo del proyecto es construir un flujo reproducible desde el diseño har
 
 ## Estado actual
 
-El repositorio esta cerrado hasta `T5`:
+El repositorio esta cerrado hasta `T7`:
 
 - `T0-T1`: baseline del proyecto y entorno host documentados.
 - `T2`: contrato HW/SW del periferico definido.
 - `T3`: RTL del IP implementado y simulado.
 - `T4`: Block Design base integrado en Vivado.
 - `T5`: bitstream generado y hardware exportado a `.xsa`.
+- `T6`: iniciada para generar el `FSBL`; el `BOOT.bin` final queda pendiente hasta integrar U-Boot y device tree.
+- `T7`: Buildroot base construido y artefactos Linux congelados.
 
 La baseline viva del proyecto esta en `docs/baseline.md`.
 
@@ -37,7 +39,7 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - `sw/include/`: cabeceras compartidas entre hardware y software, especialmente offsets y mascaras del IP.
 - `sw/linux-tests/`: ubicacion prevista para utilidades de validacion desde Linux.
 - `sw/vitis/`: ubicacion prevista para workspace o artefactos relacionados con Vitis.
-- `sw/buildroot/`: ubicacion prevista para Buildroot y su configuracion.
+- `sw/buildroot/`: Buildroot, defconfig propia, scripts de build y salida out-of-tree.
 - `artifacts/`: artefactos generados y congelados como salidas de etapa.
 - `logs/`: logs de ejecucion, especialmente UART durante arranque.
 - `measurements/`: resultados futuros de pruebas y campanas de medida.
@@ -51,6 +53,12 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - Script Tcl del proyecto Vivado: `hw/vivado/scripts/tfg_zedboard_project.tcl`
 - Bitstream final: `artifacts/hw/tfg_zedboard_bd_wrapper.bit`
 - Exportacion hardware para Vitis: `artifacts/hw/tfg_zedboard.xsa`
+- Artefactos Buildroot: `artifacts/buildroot/`
+- U-Boot ELF para `BOOT.bin`: `artifacts/buildroot/u-boot.elf`
+- Kernel Linux: `artifacts/buildroot/uImage`
+- Device tree base actual: `artifacts/buildroot/system.dtb`
+- Root filesystem base: `artifacts/buildroot/rootfs.ext4`
+- Imagen SD base: `artifacts/buildroot/sdcard.img`
 - Matriz de evidencias: `docs/evidence-matrix.md`
 
 ## Flujo general
@@ -62,14 +70,14 @@ Especificacion del IP
 -> RTL + simulacion
 -> Block Design en Vivado
 -> bitstream + XSA
--> FSBL / BOOT.bin con Vitis
 -> Buildroot
+-> FSBL / BOOT.bin con Vitis
 -> arranque en ZedBoard
 -> validacion desde Linux
 -> captura de resultados
 ```
 
-Hasta el estado actual, el trabajo llega hasta la generacion del bitstream y la exportacion del hardware.
+Hasta el estado actual, el trabajo llega hasta la build base de Buildroot. El siguiente paso tecnico es adaptar el device tree del sistema para describir el periferico `tfg_axi_lite_regs`.
 
 ## Regeneracion de artefactos hardware
 
