@@ -6,15 +6,16 @@ El objetivo del proyecto es construir un flujo reproducible desde el diseño har
 
 ## Estado actual
 
-El repositorio esta cerrado hasta `T7`:
+El repositorio esta cerrado hasta `T8`:
 
 - `T0-T1`: baseline del proyecto y entorno host documentados.
 - `T2`: contrato HW/SW del periferico definido.
 - `T3`: RTL del IP implementado y simulado.
 - `T4`: Block Design base integrado en Vivado.
 - `T5`: bitstream generado y hardware exportado a `.xsa`.
-- `T6`: iniciada para generar el `FSBL`; el `BOOT.bin` final queda pendiente hasta integrar U-Boot y device tree.
+- `T6`: iniciada para generar el `FSBL`; el `BOOT.bin` final queda pendiente hasta empaquetar `fsbl.elf`, bitstream y `u-boot.elf`.
 - `T7`: Buildroot base construido y artefactos Linux congelados.
+- `T8`: device tree adaptado al periférico AXI-Lite y `rootfs-overlay` del proyecto preparado.
 
 La baseline viva del proyecto esta en `docs/baseline.md`.
 
@@ -56,7 +57,7 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - Artefactos Buildroot: `artifacts/buildroot/`
 - U-Boot ELF para `BOOT.bin`: `artifacts/buildroot/u-boot.elf`
 - Kernel Linux: `artifacts/buildroot/uImage`
-- Device tree base actual: `artifacts/buildroot/system.dtb`
+- Device tree actual: `artifacts/buildroot/system.dtb`
 - Root filesystem base: `artifacts/buildroot/rootfs.ext4`
 - Imagen SD base: `artifacts/buildroot/sdcard.img`
 - Matriz de evidencias: `docs/evidence-matrix.md`
@@ -77,7 +78,7 @@ Especificacion del IP
 -> captura de resultados
 ```
 
-Hasta el estado actual, el trabajo llega hasta la build base de Buildroot. El siguiente paso tecnico es adaptar el device tree del sistema para describir el periferico `tfg_axi_lite_regs`.
+Hasta el estado actual, el trabajo llega hasta la adaptación del device tree y la preparación del rootfs base. El siguiente paso tecnico natural es volver a `T6` para empaquetar el `BOOT.bin` final con `fsbl.elf`, el bitstream de Vivado y `u-boot.elf`.
 
 ## Regeneracion de artefactos hardware
 

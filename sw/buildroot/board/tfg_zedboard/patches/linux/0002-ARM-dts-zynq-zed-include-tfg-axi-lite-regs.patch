@@ -1,0 +1,18 @@
+ARM: dts: zynq-zed include tfg axi lite regs dtsi
+
+Include the board-specific AXI4-Lite node description from zynq-zed.dts.
+
+Signed-off-by: Javier <javier@local>
+
+diff --git a/arch/arm/boot/dts/zynq-zed.dts b/arch/arm/boot/dts/zynq-zed.dts
+index 2d531a6..4103815 100644
+--- a/arch/arm/boot/dts/zynq-zed.dts
++++ b/arch/arm/boot/dts/zynq-zed.dts
+@@ -5,6 +5,7 @@
+  */
+ /dts-v1/;
+ #include "zynq-7000.dtsi"
++#include "tfg-zedboard-axi-lite-regs.dtsi"
+ 
+ / {
+ 	model = "Avnet ZedBoard board";

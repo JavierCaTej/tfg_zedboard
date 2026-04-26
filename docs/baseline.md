@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T7` completada
+- Estado: `T8` completada
 
 ## Plataforma
 
@@ -65,6 +65,20 @@
 - Root filesystem base: `artifacts/buildroot/rootfs.ext4`
 - Imagen SD base generada por Buildroot: `artifacts/buildroot/sdcard.img`
 - Nota: el `BOOT.bin` final del proyecto no queda cerrado en `T7`; se generará al volver a `T6` con el `FSBL`, el bitstream y el U-Boot ELF trazado.
+
+## Estado de device tree y rootfs
+
+- `T8` cerrada a nivel de descripción hardware Linux y preparación del rootfs base.
+- Directorio de personalización de placa: `sw/buildroot/board/tfg_zedboard/`
+- Parcheo del kernel activado con `BR2_GLOBAL_PATCH_DIR`
+- Nodo del periférico descrito en: `sw/buildroot/board/tfg_zedboard/dts/tfg-zedboard-axi-lite-regs.dtsi`
+- Integración del nodo en `zynq-zed.dts` mediante parches de Buildroot
+- Nodo validado en el `dtb` final:
+  - `compatible = "tfg,tfg-axi-lite-regs-1.0"`
+  - `reg = <0x40000000 0x1000>`
+  - `clock-names = "s_axi_aclk"`
+- Overlay reservado en: `sw/buildroot/board/tfg_zedboard/rootfs-overlay/`
+- Estructura prevista del rootfs personalizada para configuración, scripts y pruebas del TFG
 
 ## Política de nombres
 

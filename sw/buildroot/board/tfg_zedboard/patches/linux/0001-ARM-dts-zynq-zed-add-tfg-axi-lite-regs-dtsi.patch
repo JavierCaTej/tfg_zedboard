@@ -1,0 +1,22 @@
+ARM: dts: add tfg axi lite regs dtsi
+
+Add a minimal device-tree include for the custom AXI4-Lite peripheral
+implemented in the PL and mapped at 0x40000000.
+
+Signed-off-by: Javier <javier@local>
+
+diff --git a/arch/arm/boot/dts/tfg-zedboard-axi-lite-regs.dtsi b/arch/arm/boot/dts/tfg-zedboard-axi-lite-regs.dtsi
+new file mode 100644
+index 0000000..cb33185
+--- /dev/null
++++ b/arch/arm/boot/dts/tfg-zedboard-axi-lite-regs.dtsi
+@@ -0,0 +1,9 @@
++&amba {
++	tfg_axi_lite_regs_0: tfg_axi_lite_regs@40000000 {
++		compatible = "tfg,tfg-axi-lite-regs-1.0";
++		reg = <0x40000000 0x1000>;
++		clocks = <&clkc 15>;
++		clock-names = "s_axi_aclk";
++		status = "okay";
++	};
++};

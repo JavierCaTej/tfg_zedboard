@@ -1,0 +1,9 @@
+&amba {
+	tfg_axi_lite_regs_0: tfg_axi_lite_regs@40000000 {
+		compatible = "tfg,tfg-axi-lite-regs-1.0";
+		reg = <0x40000000 0x1000>;
+		clocks = <&clkc 15>;
+		clock-names = "s_axi_aclk";
+		status = "okay";
+	};
+};
