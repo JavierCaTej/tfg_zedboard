@@ -13,7 +13,7 @@ El repositorio esta cerrado hasta `T8`:
 - `T3`: RTL del IP implementado y simulado.
 - `T4`: Block Design base integrado en Vivado.
 - `T5`: bitstream generado y hardware exportado a `.xsa`.
-- `T6`: iniciada para generar el `FSBL`; el `BOOT.bin` final queda pendiente hasta empaquetar `fsbl.elf`, bitstream y `u-boot.elf`.
+- `T6`: `FSBL` generado y `BOOT.bin` final empaquetado.
 - `T7`: Buildroot base construido y artefactos Linux congelados.
 - `T8`: device tree adaptado al periférico AXI-Lite y `rootfs-overlay` del proyecto preparado.
 
@@ -54,6 +54,8 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - Script Tcl del proyecto Vivado: `hw/vivado/scripts/tfg_zedboard_project.tcl`
 - Bitstream final: `artifacts/hw/tfg_zedboard_bd_wrapper.bit`
 - Exportacion hardware para Vitis: `artifacts/hw/tfg_zedboard.xsa`
+- FSBL final: `artifacts/boot/fsbl.elf`
+- BOOT.bin final: `artifacts/boot/BOOT.bin`
 - Artefactos Buildroot: `artifacts/buildroot/`
 - U-Boot ELF para `BOOT.bin`: `artifacts/buildroot/u-boot.elf`
 - Kernel Linux: `artifacts/buildroot/uImage`
@@ -78,7 +80,7 @@ Especificacion del IP
 -> captura de resultados
 ```
 
-Hasta el estado actual, el trabajo llega hasta la adaptación del device tree y la preparación del rootfs base. El siguiente paso tecnico natural es volver a `T6` para empaquetar el `BOOT.bin` final con `fsbl.elf`, el bitstream de Vivado y `u-boot.elf`.
+Hasta el estado actual, el trabajo llega hasta el cierre del arranque base y la adaptación del device tree. El siguiente paso tecnico natural es arrancar la ZedBoard con la SD generada y comenzar la validación desde Linux sobre el periférico `tfg_axi_lite_regs`.
 
 ## Regeneracion de artefactos hardware
 
@@ -89,6 +91,17 @@ Despues de generar una nueva implementacion en Vivado, se puede sincronizar el b
 ```
 
 El script copia el `.bit` a `artifacts/hw/` y los informes `.rpt` a `artifacts/hw/reports/`.
+
+## Regeneracion de artefactos de arranque
+
+Para reconstruir los artefactos de `T6` uso:
+
+```bash
+./sw/vitis/scripts/run_create_fsbl.sh
+./sw/vitis/scripts/generate_boot_bin.sh
+```
+
+El primer script recompila el `FSBL` desde el `XSA` y el segundo empaqueta `artifacts/boot/BOOT.bin` con `bootgen`.
 
 ## Criterio de organizacion
 

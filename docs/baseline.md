@@ -50,6 +50,20 @@
 - Informes principales conservados en:
   - `artifacts/hw/reports/`
 
+## Estado de arranque
+
+- `T6` cerrada a nivel de `FSBL` y empaquetado final de `BOOT.bin`.
+- Script XSCT del `FSBL`: `sw/vitis/scripts/create_fsbl.tcl`
+- Script de ejecución del `FSBL`: `sw/vitis/scripts/run_create_fsbl.sh`
+- Script de empaquetado final: `sw/vitis/scripts/generate_boot_bin.sh`
+- `FSBL` final: `artifacts/boot/fsbl.elf`
+- Fichero `BIF` generado: `artifacts/boot/tfg_zedboard_boot.bif`
+- `BOOT.bin` final: `artifacts/boot/BOOT.bin`
+- Composición del `BOOT.bin`:
+  - `fsbl.elf`
+  - `tfg_zedboard_bd_wrapper.bit`
+  - `u-boot.elf`
+
 ## Estado de Buildroot
 
 - `T7` cerrada a nivel de build base reproducible.
@@ -59,12 +73,11 @@
 - Directorio de salida out-of-tree: `sw/buildroot/output/zedboard/`
 - Script de invocación: `sw/buildroot/scripts/build_buildroot.sh`
 - Artefactos principales congelados en `artifacts/buildroot/`
-- U-Boot ELF para volver a `T6`: `artifacts/buildroot/u-boot.elf`
+- U-Boot ELF reutilizado por `T6`: `artifacts/buildroot/u-boot.elf`
 - Kernel generado: `artifacts/buildroot/uImage`
 - DTB actual: `artifacts/buildroot/system.dtb`
 - Root filesystem base: `artifacts/buildroot/rootfs.ext4`
 - Imagen SD base generada por Buildroot: `artifacts/buildroot/sdcard.img`
-- Nota: el `BOOT.bin` final del proyecto no queda cerrado en `T7`; se generará al volver a `T6` con el `FSBL`, el bitstream y el U-Boot ELF trazado.
 
 ## Estado de device tree y rootfs
 

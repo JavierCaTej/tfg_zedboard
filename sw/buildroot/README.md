@@ -107,4 +107,4 @@ Los artefactos relevantes de la build actual se copian a `artifacts/buildroot/` 
 - `sdcard.img`: imagen SD completa generada por Buildroot.
 - `extlinux.conf`: configuración de arranque usada en la partición boot.
 
-El `BOOT.bin` final del proyecto no se cierra en esta tarea. Se generará al volver a `T6`, usando el `FSBL`, el bitstream de Vivado y `artifacts/buildroot/u-boot.elf`.
+El `BOOT.bin` final del proyecto se empaqueta fuera de esta carpeta en `T6`, reutilizando `artifacts/buildroot/u-boot.elf` junto con el `FSBL` y el bitstream final de Vivado.

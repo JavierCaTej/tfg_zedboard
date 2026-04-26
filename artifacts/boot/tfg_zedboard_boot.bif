@@ -1,0 +1,6 @@
+the_ROM_image:
+{
+    [bootloader]/home/javier/tfg/tfg_zedboard/artifacts/boot/fsbl.elf
+    /home/javier/tfg/tfg_zedboard/artifacts/hw/tfg_zedboard_bd_wrapper.bit
+    /home/javier/tfg/tfg_zedboard/artifacts/buildroot/u-boot.elf
+}
