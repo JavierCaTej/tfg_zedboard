@@ -6,16 +6,17 @@ El objetivo del proyecto es construir un flujo reproducible desde el diseño har
 
 ## Estado actual
 
-El repositorio esta cerrado hasta `T8`:
+El repositorio esta cerrado hasta `T9`:
 
 - `T0-T1`: baseline del proyecto y entorno host documentados.
 - `T2`: contrato HW/SW del periferico definido.
 - `T3`: RTL del IP implementado y simulado.
 - `T4`: Block Design base integrado en Vivado.
 - `T5`: bitstream generado y hardware exportado a `.xsa`.
-- `T6`: `FSBL` generado y `BOOT.bin` final empaquetado.
+- `T6`: `FSBL` y `BOOT.bin` generados como artefactos; el arranque activo vuelve a usar `U-Boot SPL`.
 - `T7`: Buildroot base construido y artefactos Linux congelados.
-- `T8`: device tree adaptado al periférico AXI-Lite y `rootfs-overlay` del proyecto preparado.
+- `T8`: device tree adaptado al periférico AXI-Lite y `rootfs-overlay` preparado.
+- `T9`: SD estable asegurada con `U-Boot SPL`, carga automática del bitstream y validación en placa.
 
 La baseline viva del proyecto esta en `docs/baseline.md`.
 
@@ -55,13 +56,17 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - Bitstream final: `artifacts/hw/tfg_zedboard_bd_wrapper.bit`
 - Exportacion hardware para Vitis: `artifacts/hw/tfg_zedboard.xsa`
 - FSBL final: `artifacts/boot/fsbl.elf`
-- BOOT.bin final: `artifacts/boot/BOOT.bin`
+- BOOT.bin FSBL de diagnóstico: `artifacts/boot/BOOT.bin`
 - Artefactos Buildroot: `artifacts/buildroot/`
-- U-Boot ELF para `BOOT.bin`: `artifacts/buildroot/u-boot.elf`
+- Primer cargador SPL activo: `artifacts/buildroot/boot-spl.bin`
+- U-Boot activo: `artifacts/buildroot/u-boot.img`
+- U-Boot ELF auxiliar: `artifacts/buildroot/u-boot.elf`
+- Bitstream incluido para U-Boot: `artifacts/buildroot/tfg_zedboard_bd_wrapper.bit`
 - Kernel Linux: `artifacts/buildroot/uImage`
 - Device tree actual: `artifacts/buildroot/system.dtb`
 - Root filesystem base: `artifacts/buildroot/rootfs.ext4`
-- Imagen SD base: `artifacts/buildroot/sdcard.img`
+- Imagen SD estable: `artifacts/buildroot/sdcard.img`
+- Documento del flujo SD estable: `docs/boot/sd-estable-buildroot-uboot.md`
 - Matriz de evidencias: `docs/evidence-matrix.md`
 
 ## Flujo general
@@ -74,13 +79,13 @@ Especificacion del IP
 -> Block Design en Vivado
 -> bitstream + XSA
 -> Buildroot
--> FSBL / BOOT.bin con Vitis
--> arranque en ZedBoard
+-> arranque estable con U-Boot SPL
+-> carga automatica del bitstream desde U-Boot
 -> validacion desde Linux
 -> captura de resultados
 ```
 
-Hasta el estado actual, el trabajo llega hasta el cierre del arranque base y la adaptación del device tree. El siguiente paso tecnico natural es arrancar la ZedBoard con la SD generada y comenzar la validación desde Linux sobre el periférico `tfg_axi_lite_regs`.
+Hasta el estado actual, el arranque estable usa `U-Boot SPL`. La imagen SD incluye el bitstream en la particion `boot` y U-Boot queda compilado con un `bootcmd` propio que carga automaticamente la PL antes de arrancar Linux. La validacion en placa confirma `devmem 0x40000000 -> 0x54464700`.
 
 ## Regeneracion de artefactos hardware
 
@@ -94,14 +99,25 @@ El script copia el `.bit` a `artifacts/hw/` y los informes `.rpt` a `artifacts/h
 
 ## Regeneracion de artefactos de arranque
 
-Para reconstruir los artefactos de `T6` uso:
+Los artefactos de `T6` se conservan como diagnostico del flujo `FSBL + BOOT.bin`:
 
 ```bash
 ./sw/vitis/scripts/run_create_fsbl.sh
 ./sw/vitis/scripts/generate_boot_bin.sh
 ```
 
-El primer script recompila el `FSBL` desde el `XSA` y el segundo empaqueta `artifacts/boot/BOOT.bin` con `bootgen`.
+El flujo activo de la SD no usa ese `BOOT.bin`; usa el `boot.bin` SPL generado por Buildroot.
+
+Para reconstruir la SD estable uso:
+
+```bash
+./sw/buildroot/scripts/build_buildroot.sh project-defconfig
+./sw/buildroot/scripts/build_buildroot.sh uboot-reconfigure
+./sw/buildroot/scripts/build_buildroot.sh
+./sw/buildroot/scripts/sync_buildroot_artifacts.sh
+```
+
+El resultado final a grabar es `artifacts/buildroot/sdcard.img`.
 
 ## Criterio de organizacion
 

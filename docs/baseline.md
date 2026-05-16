@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T8` completada
+- Estado: `T9` completada
 
 ## Plataforma
 
@@ -52,7 +52,7 @@
 
 ## Estado de arranque
 
-- `T6` cerrada a nivel de `FSBL` y empaquetado final de `BOOT.bin`.
+- `T6` cerrada a nivel de generación de `FSBL` y empaquetado de `BOOT.bin`, pero el flujo activo de SD vuelve a ser `U-Boot SPL`.
 - Script XSCT del `FSBL`: `sw/vitis/scripts/create_fsbl.tcl`
 - Script de ejecución del `FSBL`: `sw/vitis/scripts/run_create_fsbl.sh`
 - Script de empaquetado final: `sw/vitis/scripts/generate_boot_bin.sh`
@@ -63,6 +63,7 @@
   - `fsbl.elf`
   - `tfg_zedboard_bd_wrapper.bit`
   - `u-boot.elf`
+- Nota: el `BOOT.bin` FSBL se conserva como artefacto de diagnóstico; no es el primer cargador usado por la `sdcard.img` activa.
 
 ## Estado de Buildroot
 
@@ -73,11 +74,20 @@
 - Directorio de salida out-of-tree: `sw/buildroot/output/zedboard/`
 - Script de invocación: `sw/buildroot/scripts/build_buildroot.sh`
 - Artefactos principales congelados en `artifacts/buildroot/`
-- U-Boot ELF reutilizado por `T6`: `artifacts/buildroot/u-boot.elf`
+- Flujo de arranque activo: `BootROM -> U-Boot SPL -> u-boot.img -> Linux`
+- Primer cargador activo: `artifacts/buildroot/boot-spl.bin`
+- Segunda etapa de U-Boot activa: `artifacts/buildroot/u-boot.img`
+- U-Boot ELF conservado como artefacto auxiliar: `artifacts/buildroot/u-boot.elf`
+- Bitstream disponible en la partición `boot`: `artifacts/buildroot/tfg_zedboard_bd_wrapper.bit`
+- Carga de bitstream validada manualmente desde U-Boot con `fpga loadb`
+- Carga de bitstream automatizada en U-Boot mediante `sw/buildroot/board/tfg_zedboard/uboot/bootcmd.config`
+- Autoboot configurado con `CONFIG_BOOTDELAY=-2` para evitar parada accidental en `Zynq>`
+- Documento de referencia del flujo SD estable: `docs/boot/sd-estable-buildroot-uboot.md`
 - Kernel generado: `artifacts/buildroot/uImage`
 - DTB actual: `artifacts/buildroot/system.dtb`
 - Root filesystem base: `artifacts/buildroot/rootfs.ext4`
-- Imagen SD base generada por Buildroot: `artifacts/buildroot/sdcard.img`
+- Imagen SD estable generada por Buildroot: `artifacts/buildroot/sdcard.img`
+- Acceso validado al periférico tras cargar la PL: `devmem 0x40000000 -> 0x54464700`
 
 ## Estado de device tree y rootfs
 
@@ -92,6 +102,17 @@
   - `clock-names = "s_axi_aclk"`
 - Overlay reservado en: `sw/buildroot/board/tfg_zedboard/rootfs-overlay/`
 - Estructura prevista del rootfs personalizada para configuración, scripts y pruebas del TFG
+
+## Estado de SD estable
+
+- `T9` cerrada a nivel de imagen SD estable.
+- Flujo activo: `BootROM -> U-Boot SPL -> u-boot.img -> carga automática del bitstream -> Linux`
+- Script post-image propio: `sw/buildroot/board/tfg_zedboard/post-image.sh`
+- Configuración genimage propia: `sw/buildroot/board/tfg_zedboard/genimage.cfg`
+- Fragmento U-Boot propio: `sw/buildroot/board/tfg_zedboard/uboot/bootcmd.config`
+- Documento de referencia: `docs/boot/sd-estable-buildroot-uboot.md`
+- Imagen SD estable: `artifacts/buildroot/sdcard.img`
+- Validación en placa: `devmem 0x40000000 -> 0x54464700`
 
 ## Política de nombres
 

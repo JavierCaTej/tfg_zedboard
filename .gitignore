@@ -36,4 +36,7 @@ hw/vivado/tfg_zedboard/tfg_zedboard.runs/
 hw/vivado/tfg_zedboard/tfg_zedboard.sim/
 hw/vivado/tfg_zedboard/tfg_zedboard.srcs/
 
+# Internal documents
 guia-practica-tfg-zedboard-20-04.pdf
+workflow_scripts.md
+docs/internal-notes/
