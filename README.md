@@ -6,7 +6,7 @@ El objetivo del proyecto es construir un flujo reproducible desde el diseño har
 
 ## Estado actual
 
-El repositorio esta cerrado hasta `T9`:
+El repositorio esta cerrado hasta `T10`:
 
 - `T0-T1`: baseline del proyecto y entorno host documentados.
 - `T2`: contrato HW/SW del periferico definido.
@@ -17,6 +17,7 @@ El repositorio esta cerrado hasta `T9`:
 - `T7`: Buildroot base construido y artefactos Linux congelados.
 - `T8`: device tree adaptado al periférico AXI-Lite y `rootfs-overlay` preparado.
 - `T9`: SD estable asegurada con `U-Boot SPL`, carga automática del bitstream y validación en placa.
+- `T10`: utilidad de usuario con `/dev/mem` implementada, integrada en `rootfs-overlay` y validada como parte del flujo de trabajo.
 
 La baseline viva del proyecto esta en `docs/baseline.md`.
 
@@ -39,7 +40,7 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - `hw/ip/tfg_axi_lite_regs_1_0/`: fuentes HDL, especificacion y testbench del periferico `tfg_axi_lite_regs`.
 - `hw/vivado/`: proyecto Vivado y scripts de reconstruccion/exportacion.
 - `sw/include/`: cabeceras compartidas entre hardware y software, especialmente offsets y mascaras del IP.
-- `sw/linux-tests/`: ubicacion prevista para utilidades de validacion desde Linux.
+- `sw/linux-tests/`: utilidades de validacion y medida desde Linux, incluyendo `tfg_axi_memtool`.
 - `sw/vitis/`: ubicacion prevista para workspace o artefactos relacionados con Vitis.
 - `sw/buildroot/`: Buildroot, defconfig propia, scripts de build y salida out-of-tree.
 - `artifacts/`: artefactos generados y congelados como salidas de etapa.
@@ -67,6 +68,7 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - Root filesystem base: `artifacts/buildroot/rootfs.ext4`
 - Imagen SD estable: `artifacts/buildroot/sdcard.img`
 - Documento del flujo SD estable: `docs/boot/sd-estable-buildroot-uboot.md`
+- Utilidad Linux de acceso al IP: `sw/linux-tests/tfg_axi_memtool.c`
 - Matriz de evidencias: `docs/evidence-matrix.md`
 
 ## Flujo general
@@ -86,6 +88,8 @@ Especificacion del IP
 ```
 
 Hasta el estado actual, el arranque estable usa `U-Boot SPL`. La imagen SD incluye el bitstream en la particion `boot` y U-Boot queda compilado con un `bootcmd` propio que carga automaticamente la PL antes de arrancar Linux. La validacion en placa confirma `devmem 0x40000000 -> 0x54464700`.
+
+La siguiente validacion se realiza con `sw/linux-tests/tfg_axi_memtool`, una utilidad C que accede al rango AXI-Lite mediante `/dev/mem`, verifica `REG_ID` y ejecuta pruebas funcionales y bucles de medida.
 
 ## Regeneracion de artefactos hardware
 

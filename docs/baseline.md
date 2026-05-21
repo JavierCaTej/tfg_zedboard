@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T9` completada
+- Estado: `T10` completada
 
 ## Plataforma
 
@@ -113,6 +113,23 @@
 - Documento de referencia: `docs/boot/sd-estable-buildroot-uboot.md`
 - Imagen SD estable: `artifacts/buildroot/sdcard.img`
 - Validación en placa: `devmem 0x40000000 -> 0x54464700`
+
+## Estado de utilidad Linux
+
+- `T10` cerrada a nivel de utilidad de usuario para acceso y medida con `/dev/mem`.
+- Utilidad principal: `sw/linux-tests/tfg_axi_memtool.c`
+- Compilación: `make -C sw/linux-tests`
+- Toolchain por defecto: `sw/buildroot/output/zedboard/host/bin/arm-buildroot-linux-gnueabihf-gcc`
+- Acceso físico usado: `/dev/mem` con `O_RDWR | O_SYNC` y `mmap`
+- Dirección base por defecto: `0x40000000`
+- Ventana mapeada por defecto: `0x1000`
+- Comprobación previa: `REG_ID == 0x54464700`
+- Modos implementados: `smoke`, `read`, `write`, `read-loop`, `write-loop`, `rw-loop`
+- Salida de medidas: texto estructurado o CSV
+- Despliegue elegido: `rootfs-overlay`
+- Script de instalación en overlay: `sw/linux-tests/install_to_rootfs_overlay.sh`
+- Ruta final en target: `/usr/local/bin/tfg_axi_memtool`
+- Evidencia funcional: `smoke` y medidas `rw-loop` validadas sobre la SD estable.
 
 ## Política de nombres
 

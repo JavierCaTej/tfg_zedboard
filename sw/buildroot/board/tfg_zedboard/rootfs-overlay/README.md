@@ -10,4 +10,10 @@ Estructura reservada en esta fase:
 - `opt/tfg/tests/`: utilidades o scripts de prueba ligados al periférico.
 - `opt/tfg/results/`: ubicación prevista para volcar resultados o salidas de prueba.
 
-En `T8` solo se reserva la estructura. Los contenidos concretos se añadirán cuando se definan las utilidades de acceso al periférico y el flujo de validación desde Linux.
+En `T8` solo se reserva la estructura. En `T10` se añadió la utilidad `tfg_axi_memtool` en `usr/local/bin/` para que la imagen SD generada por Buildroot incluya el binario de validación y medida con `/dev/mem`.
+
+Para actualizar el binario del overlay desde las fuentes:
+
+```bash
+./sw/linux-tests/install_to_rootfs_overlay.sh
+```
