@@ -1,0 +1,13 @@
+build_id=t11-rw-2h-120rep
+date=19700101_012744
+bitstream=tfg_zedboard_bd_wrapper.bit
+xsa=tfg_zedboard.xsa
+dtb=system.dtb
+buildroot_release=2023.02.9
+fclk=100MHz
+repetitions=120
+iters=180000000
+warmup=1000000
+tool=tfg_axi_memtool
+out_dir=/root/t11/raw/19700101_012744_t11-rw-2h-120rep
+command=tfg_axi_memtool rw-loop --iters 180000000 --warmup 1000000 --build-id t11-rw-2h-120rep -C /root/t11/raw/19700101_012744_t11-rw-2h-120rep
