@@ -2,7 +2,7 @@
 
 - Fecha de creación: 2026-04-20
 - Raíz del proyecto: `tfg_zedboard`
-- Estado: `T10` completada
+- Estado: `T11` completada
 
 ## Plataforma
 
@@ -130,6 +130,28 @@
 - Script de instalación en overlay: `sw/linux-tests/install_to_rootfs_overlay.sh`
 - Ruta final en target: `/usr/local/bin/tfg_axi_memtool`
 - Evidencia funcional: `smoke` y medidas `rw-loop` validadas sobre la SD estable.
+- `PATH` del sistema configurado para incluir `/usr/local/bin` al arrancar, vía `sw/buildroot/board/tfg_zedboard/rootfs-overlay/etc/profile.d/tfg-path.sh`.
+
+## Estado de campañas de medida
+
+- `T11` cerrada a nivel de automatización de campañas y estructura de captura.
+- Script principal en repositorio: `measurements/t11/run_rw_campaign.sh`
+- Script instalado en target mediante overlay: `/usr/local/bin/run_rw_campaign.sh`
+- Modo medido: `tfg_axi_memtool rw-loop`
+- Validación previa: lectura de `REG_ID` antes de empezar la campaña.
+- Carpeta por defecto en la ZedBoard: `/root/t11/raw/`
+- Estructura de cada campaña:
+  - `campaign_config.txt`
+  - `campaign_log.txt`
+  - `run_001.csv`, `run_002.csv`, etc.
+- Parámetros configurables: identificador de campaña, repeticiones, iteraciones, warm-up, carpeta de salida y ruta alternativa de la herramienta.
+- Contexto registrado en cada campaña: bitstream, XSA, DTB, versión Buildroot y FCLK.
+- Campañas largas guardadas:
+  - `measurements/t11/raw/19700101_001022_t11-rw-1h-60rep/`
+  - `measurements/t11/raw/19700101_012744_t11-rw-2h-120rep/`
+- Resumen agregado: `measurements/t11/summary/t11_campaign_summary.csv`
+- Resultado principal: latencia media alrededor de `335 ns` por iteración `rw-loop` y `0` mismatches en ambas campañas.
+- Objetivo de la campaña: obtener varios CSV comparables de una misma configuración para analizar estabilidad y dispersión de la latencia de acceso PS-PL.
 
 ## Política de nombres
 

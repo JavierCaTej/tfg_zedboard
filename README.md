@@ -6,7 +6,7 @@ El objetivo del proyecto es construir un flujo reproducible desde el diseño har
 
 ## Estado actual
 
-El repositorio esta cerrado hasta `T10`:
+El repositorio esta cerrado hasta `T11`:
 
 - `T0-T1`: baseline del proyecto y entorno host documentados.
 - `T2`: contrato HW/SW del periferico definido.
@@ -18,6 +18,7 @@ El repositorio esta cerrado hasta `T10`:
 - `T8`: device tree adaptado al periférico AXI-Lite y `rootfs-overlay` preparado.
 - `T9`: SD estable asegurada con `U-Boot SPL`, carga automática del bitstream y validación en placa.
 - `T10`: utilidad de usuario con `/dev/mem` implementada, integrada en `rootfs-overlay` y validada como parte del flujo de trabajo.
+- `T11`: campañas `rw-loop` automatizadas, con CSV, configuración, log y resumen agregado de campañas de 1h y 2h.
 
 La baseline viva del proyecto esta en `docs/baseline.md`.
 
@@ -69,6 +70,9 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - Imagen SD estable: `artifacts/buildroot/sdcard.img`
 - Documento del flujo SD estable: `docs/boot/sd-estable-buildroot-uboot.md`
 - Utilidad Linux de acceso al IP: `sw/linux-tests/tfg_axi_memtool.c`
+- Script de campañas de medida: `measurements/t11/run_rw_campaign.sh`
+- Resumen de campañas T11: `measurements/t11/summary/t11_campaign_summary.csv`
+- Perfil del sistema para incluir `/usr/local/bin` en `PATH`: `sw/buildroot/board/tfg_zedboard/rootfs-overlay/etc/profile.d/tfg-path.sh`
 - Matriz de evidencias: `docs/evidence-matrix.md`
 
 ## Flujo general
@@ -90,6 +94,10 @@ Especificacion del IP
 Hasta el estado actual, el arranque estable usa `U-Boot SPL`. La imagen SD incluye el bitstream en la particion `boot` y U-Boot queda compilado con un `bootcmd` propio que carga automaticamente la PL antes de arrancar Linux. La validacion en placa confirma `devmem 0x40000000 -> 0x54464700`.
 
 La siguiente validacion se realiza con `sw/linux-tests/tfg_axi_memtool`, una utilidad C que accede al rango AXI-Lite mediante `/dev/mem`, verifica `REG_ID` y ejecuta pruebas funcionales y bucles de medida.
+
+Para repetir medidas de forma ordenada se usa `run_rw_campaign.sh`, que lanza varias ejecuciones de `rw-loop`, guarda cada CSV como `run_001.csv`, `run_002.csv`, etc. y deja junto a ellos un `campaign_config.txt` con los parámetros de la campaña.
+El `PATH` del sistema ya incluye `/usr/local/bin` al arrancar, así que en la ZedBoard se pueden lanzar directamente `tfg_axi_memtool` y `run_rw_campaign.sh` sin exportar nada a mano.
+Las primeras campañas largas guardadas en `measurements/t11/raw/` confirman `0` mismatches y una latencia media cercana a `335 ns` por iteración `rw-loop`.
 
 ## Regeneracion de artefactos hardware
 
