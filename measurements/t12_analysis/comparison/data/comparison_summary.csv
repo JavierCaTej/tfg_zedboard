@@ -1,0 +1,5 @@
+campaign,runs,mean_avg_ns,std_avg_ns,min_avg_ns,max_avg_ns,total_elapsed_h,total_mismatches
+A_idle_1h,60,335.264,0.013,335.236,335.287,1.005792,0
+B_idle_5h,300,335.281,0.014,335.235,335.321,5.029217,0
+C_cpu_1core_1h,60,335.231,0.017,335.197,335.275,1.005694,0
+C_cpu_2core_1h,60,511.386,11.467,485.352,539.850,1.534159,0

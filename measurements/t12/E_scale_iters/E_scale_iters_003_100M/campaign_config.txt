@@ -1,0 +1,13 @@
+id=E_scale_iters
+condicion=reposo
+casos=1M,10M,100M,180M
+reps_por_caso=20
+warmup_1M=100000
+warmup_10M=100000
+warmup_100M=1000000
+warmup_180M=1000000
+trace_block_1M=10000
+trace_block_10M=100000
+trace_block_100M=100000
+trace_block_180M=100000
+duracion_estimada=30min

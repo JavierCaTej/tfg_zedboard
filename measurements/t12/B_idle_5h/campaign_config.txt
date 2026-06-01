@@ -1,0 +1,9 @@
+id=B_idle_5h
+condicion=reposo_largo
+reps=300
+iters=180000rs=
+iters=180000000
+warmup=1000000
+trace_block=100000
+duracion_estimada=5h
+nota=guardado_en_tmp_por_espacio_limitado_en_rootfs

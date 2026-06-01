@@ -41,6 +41,7 @@
 #define DEFAULT_BUILD_ID  "manual"
 #define DEFAULT_CSV_DIR   "."
 #define TEST_VALUE        0xA5A55A5Au
+#define TRACE_MAX_ROWS    100000u
 
 #define EXIT_USAGE        1
 #define EXIT_OPEN_ERROR   2
@@ -62,6 +63,8 @@ static const char *g_build_id = DEFAULT_BUILD_ID;
 static const char *g_csv_dir = DEFAULT_CSV_DIR;
 static bool g_csv = false;
 static bool g_check_id = true;
+static bool g_trace = false;
+static uint32_t g_trace_block = 1u;
 
 static int g_fd = -1;
 static void *g_map = NULL;
@@ -102,6 +105,8 @@ static void usage(const char *prog)
             "  --build-id <text>   Identificador de la prueba\n"
             "  -C <dir>            Carpeta donde guardar el CSV de rw-loop\n"
             "  --csv-dir <dir>     Igual que -C\n"
+            "  --trace             Guarda una microtraza de rw-loop en otro CSV\n"
+            "  --trace-block <n>   Agrupa la microtraza cada n iteraciones\n"
             "  --csv               Imprime el resultado en CSV\n"
             "  --no-id-check       No comprueba REG_ID antes de operar\n"
             "  -h, --help          Muestra esta ayuda\n",
@@ -389,6 +394,59 @@ static int save_rw_csv(uint32_t offset, uint64_t elapsed_ns, uint32_t mismatches
 }
 
 /*
+ * Abre el CSV donde guardo la microtraza.
+ *
+ * Esta traza no esta pensada para campañas enormes. Sirve para hacer pruebas
+ * pequeñas y ver si hay picos o dispersion dentro de un run. Por eso pongo un
+ * limite de filas: si no, podria acabar creando ficheros gigantes en la SD.
+ */
+static int open_trace_csv(FILE **trace_file, char *trace_path, size_t trace_path_size)
+{
+    char timestamp_name[32];
+    struct tm tm_info;
+    time_t now;
+    uint64_t rows;
+
+    rows = ((uint64_t)g_iters + (uint64_t)g_trace_block - 1u) / (uint64_t)g_trace_block;
+    if (rows > TRACE_MAX_ROWS) {
+        fprintf(stderr,
+                "La traza generaria %" PRIu64 " filas. Baja --iters o sube --trace-block.\n",
+                rows);
+        fprintf(stderr, "Limite actual de seguridad: %u filas\n", TRACE_MAX_ROWS);
+        return EXIT_USAGE;
+    }
+
+    if (mkdir(g_csv_dir, 0777) != 0 && errno != EEXIST) {
+        perror("mkdir csv dir");
+        return EXIT_OPEN_ERROR;
+    }
+
+    now = time(NULL);
+    if (localtime_r(&now, &tm_info) == NULL) {
+        snprintf(timestamp_name, sizeof(timestamp_name), "sin_fecha");
+    } else {
+        strftime(timestamp_name, sizeof(timestamp_name), "%Y%m%d_%H%M%S", &tm_info);
+    }
+
+    snprintf(trace_path, trace_path_size, "%s/tfg_axi_memtool_rw_loop_trace_%s_%ld.csv",
+             g_csv_dir, timestamp_name, (long)getpid());
+
+    *trace_file = fopen(trace_path, "w");
+    if (*trace_file == NULL) {
+        perror("fopen trace csv");
+        return EXIT_OPEN_ERROR;
+    }
+
+    if (g_trace_block == 1u) {
+        fprintf(*trace_file, "iter,elapsed_ns,mismatch\n");
+    } else {
+        fprintf(*trace_file, "block,first_iter,iters,elapsed_ns,avg_ns,mismatches\n");
+    }
+
+    return 0;
+}
+
+/*
  * Prueba rapida de funcionamiento.
  *
  * Esta es la primera prueba que ejecutaria delante del jurado: leo el ID y la
@@ -561,6 +619,8 @@ static int cmd_rw_loop(const char *value_text)
     uint32_t i;
     uint64_t start;
     uint64_t elapsed;
+    FILE *trace_file = NULL;
+    char trace_path[512];
 
     if (value_text != NULL && !parse_u32(value_text, &value)) {
         fprintf(stderr, "Valor invalido: %s\n", value_text);
@@ -574,19 +634,82 @@ static int cmd_rw_loop(const char *value_text)
         (void)read32(TFG_AXI_LITE_REGS_REG_RDATA);
     }
 
-    start = get_time_ns();
-    for (i = 0; i < g_iters; i++) {
-        uint32_t expected = value + i;
-        uint32_t observed;
+    if (g_trace) {
+        int rc;
+        uint32_t block = 0;
 
-        write32(TFG_AXI_LITE_REGS_REG_WDATA, expected);
-        observed = read32(TFG_AXI_LITE_REGS_REG_RDATA);
-
-        if (observed != expected) {
-            mismatches++;
+        rc = open_trace_csv(&trace_file, trace_path, sizeof(trace_path));
+        if (rc != 0) {
+            return rc;
         }
+
+        /*
+         * En modo traza mido por iteracion o por bloques. Esto da datos mas
+         * detallados, pero tambien mete mas instrumentacion que el rw-loop
+         * normal. Por eso lo uso para campañas cortas o de diagnostico.
+         */
+        elapsed = 0;
+        i = 0;
+        while (i < g_iters) {
+            uint32_t first_iter = i;
+            uint32_t todo = g_trace_block;
+            uint32_t block_iters;
+            uint32_t block_mismatches = 0;
+            uint64_t block_elapsed;
+
+            if (todo > (g_iters - i)) {
+                todo = g_iters - i;
+            }
+            block_iters = todo;
+
+            start = get_time_ns();
+            while (todo > 0u) {
+                uint32_t expected = value + i;
+                uint32_t observed;
+
+                write32(TFG_AXI_LITE_REGS_REG_WDATA, expected);
+                observed = read32(TFG_AXI_LITE_REGS_REG_RDATA);
+
+                if (observed != expected) {
+                    block_mismatches++;
+                }
+
+                i++;
+                todo--;
+            }
+            block_elapsed = get_time_ns() - start;
+            elapsed += block_elapsed;
+            mismatches += block_mismatches;
+
+            if (g_trace_block == 1u) {
+                fprintf(trace_file, "%" PRIu32 ",%" PRIu64 ",%" PRIu32 "\n",
+                        first_iter, block_elapsed, block_mismatches);
+            } else {
+                fprintf(trace_file, "%" PRIu32 ",%" PRIu32 ",%" PRIu32 ",%" PRIu64 ",%.3f,%" PRIu32 "\n",
+                        block, first_iter, block_iters, block_elapsed,
+                        (double)block_elapsed / (double)block_iters,
+                        block_mismatches);
+            }
+            block++;
+        }
+
+        fclose(trace_file);
+        fprintf(stderr, "trace_file=%s\n", trace_path);
+    } else {
+        start = get_time_ns();
+        for (i = 0; i < g_iters; i++) {
+            uint32_t expected = value + i;
+            uint32_t observed;
+
+            write32(TFG_AXI_LITE_REGS_REG_WDATA, expected);
+            observed = read32(TFG_AXI_LITE_REGS_REG_RDATA);
+
+            if (observed != expected) {
+                mismatches++;
+            }
+        }
+        elapsed = get_time_ns() - start;
     }
-    elapsed = get_time_ns() - start;
 
     print_result("rw_loop", TFG_AXI_LITE_REGS_REG_WDATA, elapsed, mismatches);
 
@@ -622,6 +745,15 @@ int main(int argc, char **argv)
             g_csv = true;
         } else if (strcmp(arg, "--no-id-check") == 0) {
             g_check_id = false;
+        } else if (strcmp(arg, "--trace") == 0) {
+            g_trace = true;
+        } else if (strcmp(arg, "--trace-block") == 0 && i + 1 < argc) {
+            i++;
+            g_trace = true;
+            if (!parse_u32(argv[i], &g_trace_block) || g_trace_block == 0u) {
+                fprintf(stderr, "trace-block invalido\n");
+                return EXIT_USAGE;
+            }
         } else if (strcmp(arg, "--base") == 0 && i + 1 < argc) {
             i++;
             if (!parse_u64(argv[i], &g_base_addr)) {

@@ -1,0 +1,2 @@
+timestamp,build_id,base_addr,op,offset,iters,warmup,elapsed_ns,avg_ns,mismatches
+299,F_idle_trace_block_100k,0x40000000,rw_loop,0x00000010,100000,1000,33809166,338.092,0

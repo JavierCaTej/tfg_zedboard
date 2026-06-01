@@ -1,0 +1,2 @@
+timestamp,build_id,base_addr,op,offset,iters,warmup,elapsed_ns,avg_ns,mismatches
+1320,E_1M_run_13,0x40000000,rw_loop,0x00000010,1000000,100000,335927655,335.928,0

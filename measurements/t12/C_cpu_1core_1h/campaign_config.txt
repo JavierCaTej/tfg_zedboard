@@ -1,0 +1,7 @@
+id=C_cpu_1core_1h
+condicion=carga_cpu_1_proceso_yes
+reps=60
+iters=180000000
+warmup=1000000
+trace_block=100000
+duracion_estimada=1h

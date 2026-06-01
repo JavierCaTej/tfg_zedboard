@@ -1,0 +1,3 @@
+id=F_trace_detail
+condicion=reposo_y_cpu_2core
+objetivo=ver_dispersion_interna_de_un_run_con_trazas_cortas
