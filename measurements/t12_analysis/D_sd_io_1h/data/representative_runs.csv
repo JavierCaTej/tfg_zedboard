@@ -1,0 +1,4 @@
+kind,run,run_dir,avg_ns,campaign_mean_ns
+min,36,run_36,340.701,340.954
+mean,55,run_55,340.944,340.954
+max,20,run_20,341.990,340.954

@@ -47,6 +47,7 @@ function t12_plot_campaign(campaign_dir, output_dir, run_number)
   plot_trace_one_run(data, run_number, ...
                      fullfile(plots_dir, "03_trace_one_run.png"), ...
                      fullfile(data_dir, sprintf("trace_run_%03d.csv", run_number)));
+  plot_representative_runs(data, plots_dir, data_dir);
   plot_trace_full_campaign(data, ...
                            fullfile(plots_dir, "04_trace_full_campaign.png"), ...
                            fullfile(data_dir, "trace_full_campaign_sampled.csv"));
@@ -54,6 +55,76 @@ function t12_plot_campaign(campaign_dir, output_dir, run_number)
 
   printf("Graficas guardadas en %s\n", plots_dir);
   printf("Datos procesados guardados en %s\n", data_dir);
+endfunction
+
+function plot_representative_runs(data, plots_dir, data_dir)
+  % run_001 sirve como ejemplo, pero no siempre representa bien la campaign.
+  % Por eso busco tres runs:
+  % - el mas rapido, segun avg_ns del resumen
+  % - uno cercano a la media
+  % - el mas lento
+  %
+  % Esto da una comparacion mas justa para la memoria: no elijo una traza a
+  % mano, sino que salen de los datos.
+  avg = data.summary(:, 6);
+  mean_avg = mean(avg);
+
+  [~, min_idx] = min(avg);
+  [~, max_idx] = max(avg);
+  [~, mid_idx] = min(abs(avg - mean_avg));
+
+  selected_idx = [min_idx, mid_idx, max_idx];
+  % Lo llamo "mean" para que sea mas facil de leer en la memoria. Realmente
+  % es el run mas cercano a la media, porque no existe un run que sea la media
+  % exacta de toda la campaign.
+  selected_name = {"min", "mean", "max"};
+
+  fid = fopen(fullfile(data_dir, "representative_runs.csv"), "w");
+  if fid < 0
+    error("No se puede escribir representative_runs.csv");
+  endif
+
+  fprintf(fid, "kind,run,run_dir,avg_ns,campaign_mean_ns\n");
+  for i = 1:numel(selected_idx)
+    idx = selected_idx(i);
+    fprintf(fid, "%s,%d,%s,%.3f,%.3f\n", selected_name{i}, idx, ...
+            data.run_dirs{idx}, avg(idx), mean_avg);
+  endfor
+  fclose(fid);
+
+  plot_representative_summary(data, selected_idx, selected_name, ...
+                              fullfile(plots_dir, "06_representative_runs_summary.png"));
+
+  for i = 1:numel(selected_idx)
+    idx = selected_idx(i);
+    plot_trace_one_run(data, idx, ...
+                       fullfile(plots_dir, sprintf("07_trace_%s_run.png", selected_name{i})), ...
+                       fullfile(data_dir, sprintf("trace_%s_run.csv", selected_name{i})));
+  endfor
+endfunction
+
+function plot_representative_summary(data, selected_idx, selected_name, output_file)
+  % Grafica sencilla para ubicar esos tres runs dentro de toda la campaign.
+  x = data.summary(:, 1);
+  y = data.summary(:, 6);
+
+  fig = figure("visible", "off");
+  plot(x, y, "-o", "linewidth", 1.0, "markersize", 2);
+  hold on;
+
+  for i = 1:numel(selected_idx)
+    idx = selected_idx(i);
+    plot(x(idx), y(idx), "x", "markersize", 10, "linewidth", 2);
+    text(x(idx), y(idx), sprintf(" %s", selected_name{i}), "interpreter", "none");
+  endfor
+
+  hold off;
+  grid on;
+  xlabel("run");
+  ylabel("latencia media por run (ns)");
+  title(sprintf("%s: runs representativos", data.name), "interpreter", "none");
+  print(fig, output_file, "-dpng", "-r150");
+  close(fig);
 endfunction
 
 function write_campaign_summary(data, output_file)

@@ -1,0 +1,5 @@
+campaign,runs,mean_avg_ns,std_avg_ns,min_avg_ns,max_avg_ns,total_elapsed_h,total_mismatches
+E_scale_iters_001_1M,20,335.650,0.186,335.366,335.928,0.001865,0
+E_scale_iters_002_10M,20,335.276,0.060,335.168,335.378,0.018626,0
+E_scale_iters_003_100M,20,335.259,0.020,335.227,335.296,0.186255,0
+E_scale_iters_004_180M,20,335.260,0.015,335.233,335.281,0.335260,0

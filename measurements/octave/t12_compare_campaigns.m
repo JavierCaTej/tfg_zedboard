@@ -127,7 +127,7 @@ function plot_mean_std(data, output_file)
   set(h, "linewidth", 1.2);
   hold off;
   grid on;
-  set(gca, "xtick", 1:n, "xticklabel", labels);
+  set(gca, "xtick", 1:n, "xticklabel", labels, "ticklabelinterpreter", "none");
   if exist("xtickangle", "file") || exist("xtickangle", "builtin")
     xtickangle(25);
   endif
@@ -154,7 +154,8 @@ function plot_all_runs(data, output_file)
   xlabel("tiempo acumulado dentro de cada campaign (h)");
   ylabel("latencia media por run (ns)");
   title("Comparacion de avg\\_ns por run", "interpreter", "none");
-  legend(get_names(data), "location", "best");
+  h = legend(get_names(data), "location", "best");
+  set(h, "interpreter", "none");
   print(fig, output_file, "-dpng", "-r150");
   close(fig);
 endfunction
@@ -177,7 +178,8 @@ function plot_histograms(data, output_file)
   xlabel("latencia media por run (ns)");
   ylabel("frecuencia relativa");
   title("Distribucion de latencias por campaign", "interpreter", "none");
-  legend(get_names(data), "location", "best");
+  h = legend(get_names(data), "location", "best");
+  set(h, "interpreter", "none");
   print(fig, output_file, "-dpng", "-r150");
   close(fig);
 endfunction

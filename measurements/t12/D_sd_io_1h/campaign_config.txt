@@ -1,0 +1,8 @@
+id=D_sd_io_1h
+condicion=carga_io_sd_con_dd
+reps=60
+iters=180000000
+warmup=1000000
+trace_block=100000
+duracion_estimada=1h
+nota=no_estresa_axi_lite_directamente_mide_ruido_del_sistema_por_io

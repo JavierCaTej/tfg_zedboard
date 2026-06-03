@@ -1,0 +1,3 @@
+file,mode,rows,mean_ns,min_ns,max_ns,std_ns,total_elapsed_s,mismatches
+tfg_axi_memtool_rw_loop_trace_19700101_000455_112.csv,iter,1000,1413.882,1362.000,2442.000,76.697,0.001413882,0
+tfg_axi_memtool_rw_loop_trace_19700101_000458_113.csv,block,100,338.092,335.388,507.972,17.499,0.033809166,0
