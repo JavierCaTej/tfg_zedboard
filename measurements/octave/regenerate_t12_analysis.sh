@@ -36,4 +36,6 @@ t12_compare_campaigns({
   'measurements/t12/E_scale_iters_003_100M',
   'measurements/t12/E_scale_iters_004_180M'
 }, 'measurements/t12_analysis/comparison_E_scale');
+
+t12_plot_relative_change_vs_idle('measurements/t12_analysis/conclusions');
 "

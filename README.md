@@ -6,7 +6,7 @@ El objetivo del proyecto es construir un flujo reproducible desde el diseño har
 
 ## Estado actual
 
-El repositorio esta cerrado hasta `T11`:
+El repositorio esta cerrado hasta `T12`:
 
 - `T0-T1`: baseline del proyecto y entorno host documentados.
 - `T2`: contrato HW/SW del periferico definido.
@@ -18,7 +18,8 @@ El repositorio esta cerrado hasta `T11`:
 - `T8`: device tree adaptado al periférico AXI-Lite y `rootfs-overlay` preparado.
 - `T9`: SD estable asegurada con `U-Boot SPL`, carga automática del bitstream y validación en placa.
 - `T10`: utilidad de usuario con `/dev/mem` implementada, integrada en `rootfs-overlay` y validada como parte del flujo de trabajo.
-- `T11`: campañas `rw-loop` automatizadas, con CSV, configuración, log y resumen agregado de campañas de 1h y 2h.
+- `T11`: campaigns `rw-loop` automatizadas, con CSV, configuracion, log y resumen agregado de ejecuciones largas.
+- `T12`: medidas experimentales procesadas con GNU Octave, plots generados y documentacion preparada para la memoria del TFG.
 
 La baseline viva del proyecto esta en `docs/baseline.md`.
 
@@ -46,7 +47,11 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - `sw/buildroot/`: Buildroot, defconfig propia, scripts de build y salida out-of-tree.
 - `artifacts/`: artefactos generados y congelados como salidas de etapa.
 - `logs/`: logs de ejecucion, especialmente UART durante arranque.
-- `measurements/`: resultados futuros de pruebas y campanas de medida.
+- `measurements/`: resultados de pruebas, campaigns de medida y analisis generados.
+- `measurements/octave/`: scripts GNU Octave usados para procesar CSV y generar plots.
+- `measurements/t12_analysis/`: datos procesados y plots finales de T12.
+- `docs/measurements/t12/`: interpretacion tecnica de las medidas T12.
+- `docs/chatgpt-pro-context/`: paquete de contexto para redactar la parte practica con ChatGPT Pro.
 
 ## Artefactos principales
 
@@ -70,8 +75,13 @@ La baseline viva del proyecto esta en `docs/baseline.md`.
 - Imagen SD estable: `artifacts/buildroot/sdcard.img`
 - Documento del flujo SD estable: `docs/boot/sd-estable-buildroot-uboot.md`
 - Utilidad Linux de acceso al IP: `sw/linux-tests/tfg_axi_memtool.c`
-- Script de campañas de medida: `measurements/t11/run_rw_campaign.sh`
-- Resumen de campañas T11: `measurements/t11/summary/t11_campaign_summary.csv`
+- Script de campaigns de medida: `measurements/t11/run_rw_campaign.sh`
+- Resumen de campaigns T11: `measurements/t11/summary/t11_campaign_summary.csv`
+- Protocolo y conclusiones T12: `docs/measurements/t12/README.md`
+- Comparacion de resultados T12: `docs/measurements/t12/comparisons.md`
+- Guia de redaccion TFG para T12: `docs/measurements/t12/tfg-writing-guide.md`
+- Contexto preparado para ChatGPT Pro: `docs/chatgpt-pro-context/`
+- Script de regeneracion de plots T12: `measurements/octave/regenerate_t12_analysis.sh`
 - Perfil del sistema para incluir `/usr/local/bin` en `PATH`: `sw/buildroot/board/tfg_zedboard/rootfs-overlay/etc/profile.d/tfg-path.sh`
 - Matriz de evidencias: `docs/evidence-matrix.md`
 
@@ -95,9 +105,11 @@ Hasta el estado actual, el arranque estable usa `U-Boot SPL`. La imagen SD inclu
 
 La siguiente validacion se realiza con `sw/linux-tests/tfg_axi_memtool`, una utilidad C que accede al rango AXI-Lite mediante `/dev/mem`, verifica `REG_ID` y ejecuta pruebas funcionales y bucles de medida.
 
-Para repetir medidas de forma ordenada se usa `run_rw_campaign.sh`, que lanza varias ejecuciones de `rw-loop`, guarda cada CSV como `run_001.csv`, `run_002.csv`, etc. y deja junto a ellos un `campaign_config.txt` con los parámetros de la campaña.
+Para repetir medidas de forma ordenada se usa `run_rw_campaign.sh`, que lanza varias ejecuciones de `rw-loop`, guarda cada CSV como `run_001.csv`, `run_002.csv`, etc. y deja junto a ellos un `campaign_config.txt` con los parametros de la ejecucion.
 El `PATH` del sistema ya incluye `/usr/local/bin` al arrancar, así que en la ZedBoard se pueden lanzar directamente `tfg_axi_memtool` y `run_rw_campaign.sh` sin exportar nada a mano.
-Las primeras campañas largas guardadas en `measurements/t11/raw/` confirman `0` mismatches y una latencia media cercana a `335 ns` por iteración `rw-loop`.
+Las primeras ejecuciones largas guardadas en `measurements/t11/raw/` confirman `0` mismatches y una latencia media cercana a `335 ns` por iteracion `rw-loop`.
+
+En `T12` se han ampliado las medidas comparando reposo, larga duracion, carga de CPU, carga de I/O sobre SD, escalado por numero de iteraciones y trazas de detalle. Los CSV raw estan en `measurements/t12/`, los plots y datos procesados en `measurements/t12_analysis/`, y la interpretacion preparada para la memoria esta en `docs/measurements/t12/`.
 
 ## Regeneracion de artefactos hardware
 

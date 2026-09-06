@@ -1,0 +1,6 @@
+campaign,runs,mean_avg_ns,std_avg_ns,delta_vs_A_ns,relative_vs_A_percent,mismatches
+A_idle_1h,60,335.264,0.013,0.000,0.000,0
+B_idle_5h,300,335.281,0.014,0.017,0.005,0
+C_cpu_1core_1h,60,335.231,0.017,-0.033,-0.010,0
+C_cpu_2core_1h,60,511.386,11.467,176.122,52.532,0
+D_sd_io_1h,60,340.954,0.297,5.690,1.697,0
